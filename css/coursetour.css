@@ -1,0 +1,20 @@
+coursetour .owl-carousel h1 {
+  color: #fff;
+  background-color: #2d2d2d;
+  padding: 10px;
+  border-radius: 5px;
+}
+coursetour .flexslider {
+  margin: 0;
+}
+coursetour media .tab-content {
+  border: 1px solid #ddd;
+  border-top: 0;
+}
+coursetour aside .tab-content {
+  border: 1px solid #ddd;
+  border-top: 0;
+}
+.coursetour-desc, .coursetour-stats {
+  padding: 15px;
+}

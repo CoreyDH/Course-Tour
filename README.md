@@ -1,5 +1,4 @@
-# Course-Tour
-Intended for Distinct Software Solutions
+# Course Tour
 
 ### Planned Features ###
 - Carousel like interface between holes, and images.
@@ -15,3 +14,5 @@ Intended for Distinct Software Solutions
 - jQuery
 - Bootstrap
 - Flexslider 2
+
+Intended for Distinct Software Solutions.
