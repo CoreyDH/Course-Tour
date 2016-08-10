@@ -1,0 +1,22 @@
+{
+  "name": "course-tour",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "CoreyDH <rewer6@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/CoreyDH/Course-Tour",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "flexslider": "^2.6.1"
+  }
+}
