@@ -15,6 +15,42 @@ coursetour aside .tab-content {
   border: 1px solid #ddd;
   border-top: 0;
 }
+.coursetour-nav ul {
+  list-style: none;
+  margin: auto;
+  text-align: center;
+}
+.coursetour-nav ul li {
+  color: #222;
+  display: inline-block;
+  font-weight: 600;
+  background-color: #f1f1f1;
+  height: 30px;
+  width: 30px;
+  margin: 10px;
+  line-height: 26px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+}
+.coursetour-nav ul li:hover {
+  color: #f1f1f1;
+  background-color: #666;
+  border-color: #222;
+}
 .coursetour-desc, .coursetour-stats {
   padding: 15px;
+}
+
+.coursetour-stats .box {
+  height: 30px;
+  width: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  float: right;
+}
+.coursetour-stats .red {
+  background-color: red;
+}
+.coursetour-stats .blue {
+  background-color: blue;
 }
