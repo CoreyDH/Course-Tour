@@ -38,6 +38,7 @@ coursetour aside .tab-content {
   border-color: #222;
 }
 .coursetour-desc, .coursetour-stats {
+  background-color: #fff;
   padding: 15px;
 }
 

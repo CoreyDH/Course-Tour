@@ -15,19 +15,21 @@
 
         this.$el = tour.$el;
         this.options = tour.options;
+
+        this.images = [];
         this.description = [];
         this.stats = [];
-
-
 
         this.createNav();
         this.createCarousel();
         this.createMedia();
+        this.getImages();
+        this.createSliders();
 
         this.getContent().done(function() {
           createHTML.createAside();
         });
-        
+
       },
       createNav: function() {
 
@@ -57,26 +59,27 @@
         for(var i=0; i < $media.length; i++) {
 
           // Nav Tabs
-          $media.eq(i).append('<ul class="nav nav-tabs" role="tablist"></ul>');
+          $media.eq(i).append('<ul class="nav nav-tabs" role="tablist"></ul><div class="tab-content"></div>');
 
 
           // If there are images
-          if(this.getImages()) {
+          if(true) {
 
-            $media.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-media-images-'+i+'" aria-controls="coursetour-media-images-'+i+'" role="tab" data-toggle="tab">Images</a></li>');
+            $media.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-media-images-'+(i+1)+'" aria-controls="coursetour-media-images-'+(i+1)+'" role="tab" data-toggle="tab">Images</a></li>');
 
             // Images Tabs Pane
-            $media.eq(i).append('<div class="tab-content"><div role="tabpanel" class="tab-pane active" id="coursetour-media-images-'+i+'"><div id="coursetour-images-slider-'+i+'" class="flexslider coursetour-images"><ul class="slides"></ul></div><div id="coursetour-images-carousel-'+i+'" class="flexslider"><ul class="slides"></ul></div></div>');
+            $media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active" id="coursetour-media-images-'+(i+1)+'"><div id="coursetour-images-slider-'+(i+1)+'" class="flexslider coursetour-images"><ul class="slides"></ul></div><div id="coursetour-images-carousel-'+(i+1)+'" class="flexslider coursetour-images-carousel"><ul class="slides"></ul></div>');
 
           }
 
+          // console.log(this.options.videos['hole'+(i+1)] !== undefined);
           // If there are videos
-          if(this.options.videos.length > 0) {
+          if(this.options.videos['hole'+(i+1)] !== undefined) {
 
-            $media.eq(i).find('.nav-tabs').append('<li role="presentation"><a href="#coursetour-media-videos-'+i+'" aria-controls="coursetour-media-videos-'+i+'" role="tab" data-toggle="tab">Videos</a></li>');
+            $media.eq(i).find('.nav-tabs').append('<li role="presentation"><a href="#coursetour-media-videos-'+(i+1)+'" aria-controls="coursetour-media-videos-'+(i+1)+'" role="tab" data-toggle="tab">Videos</a></li>');
 
             // Video Tabs Pane
-            $media.eq(i).append('<div class="tab-content"><div role="tabpanel" class="tab-pane active" id="coursetour-media-videos-'+i+'"><div id="coursetour-videos-slider-'+i+'" class="flexslider coursetour-videos"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-'+i+'" class="flexslider"><ul class="slides"></ul></div></div>');
+            $media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active" id="coursetour-media-videos-'+(i+1)+'"><div id="coursetour-videos-slider-'+(i+1)+'" class="flexslider coursetour-videos"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-'+(i+1)+'" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
 
           }
 
@@ -87,26 +90,62 @@
 
         this.$el.find('.hole-wrapper').append('<aside class="col-md-4"><div class="row"></div></aside>');
         var $aside = this.$el.find('.hole-wrapper > aside > .row');
-        console.log(this.description);
 
         for(var i=0; i < $aside.length; i++) {
 
           // Nav Tabs
-          $aside.eq(i).append('<ul class="nav nav-tabs" role="tablist"><li role="presentation" class="active"><a href="#coursetour-aside-desc-'+i+'" aria-controls="coursetour-aside-desc-'+i+'" role="tab" data-toggle="tab">Description</a></li><li role="presentation"><a href="#coursetour-aside-stats-'+i+'" aria-controls="coursetour-aside-stats-'+i+'" role="tab" data-toggle="tab">Stats</a></li></ul>');
+          $aside.eq(i).append('<ul class="nav nav-tabs" role="tablist"><li role="presentation" class="active"><a href="#coursetour-aside-desc-'+(i+1)+'" aria-controls="coursetour-aside-desc-'+(i+1)+'" role="tab" data-toggle="tab">Description</a></li><li role="presentation"><a href="#coursetour-aside-stats-'+(i+1)+'" aria-controls="coursetour-aside-stats-'+(i+1)+'" role="tab" data-toggle="tab">Stats</a></li></ul><div class="tab-content"></div>');
 
           // Description Tabs Pane
-          $aside.eq(i).append('<div class="tab-content"><div role="tabpanel" class="tab-pane active" id="coursetour-media-images-'+i+'"><div id="coursetour-images-slider-'+i+'" class="flexslider coursetour-images"><ul class="slides"></ul></div><div id="coursetour-images-carousel-'+i+'" class="flexslider"><ul class="slides"></ul></div></div>');
+          $aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active coursetour-desc" id="coursetour-aside-desc-'+(i+1)+'">'+this.description[i]+'</div>');
 
           // Stats Tabs Pane
-          $aside.eq(i).append('<div class="tab-content"><div role="tabpanel" class="tab-pane active" id="coursetour-media-videos-'+i+'"><div id="coursetour-videos-slider-'+i+'" class="flexslider coursetour-videos"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-'+i+'" class="flexslider"><ul class="slides"></ul></div></div>');
+          $aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane coursetour-stats" id="coursetour-aside-stats-'+(i+1)+'">'+this.stats[i]+'</div>');
 
         }
 
       },
       createSliders: function() {
 
+        var $imagesSlider = this.$el.find('media .coursetour-images > ul');
+        var $imagesCarousel = this.$el.find('media .coursetour-images-carousel > ul');
+        var $videosSlider = this.$el.find('media .coursetour-videos > ul');
+        var $videosCarousel = this.$el.find('media .coursetour-videos-carousel > ul');
+
+        // console.log('imagesSlider', $imagesSlider);
+
+        for(var i=0; i < this.options.holes; i++) {
+
+          var images = this.images['hole'+(i+1)];
+
+          if(images !== undefined) {
+            for(var j=0; j < images.length; j++) {
+              $imagesSlider.eq(i).append('<li><img src="'+this.options.imageDir+'/'+images[j]+'" /></li>');
+              $imagesCarousel.eq(i).append('<li><img src="'+this.options.imageDir+'/'+images[j]+'" /></li>');
+            }
+          }
+
+          var videos = this.options.videos['hole'+(i+1)];
+          console.log(videos);
+
+          if(videos !== undefined) {
+            for(var k=0; k < videos.length; k++) {
+              $videosSlider.eq(i).append('<li><iframe width="100%" height="383" src="https://www.youtube.com/embed/'+videos[k]+'" frameborder="0" allowfullscreen></iframe></li>');
+              $videosCarousel.eq(i).append('<li><img src="https://i.ytimg.com/vi/'+videos[k]+'/hqdefault.jpg" /></li>');
+            }
+          }
+
+        }
+
       },
       getImages: function() {
+
+        // Implement with PHP later
+
+        this.images = {
+          hole1: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
+          hole3: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
+        };
 
       },
       getContent: function(callback) {
@@ -126,7 +165,6 @@
             url: 'collateral/coursetour-desc-'+index+'.htm',
             dataType: 'html',
             success: function(html) {
-              console.log('hit', index);
               createHTML.description.push(html);
             }
           });
@@ -138,7 +176,6 @@
             url: 'collateral/coursetour-stats-'+index+'.htm',
             dataType: 'html',
             success: function(html) {
-              console.log('hit', index);
               createHTML.stats.push(html);
             }
           });
@@ -215,7 +252,7 @@
 
   $.coursetour.defaults = {
     holes: 18,
-    videos: [],
+    videos: {},
     imageDir: 'images/coursetour'
   };
 
