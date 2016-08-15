@@ -6,7 +6,6 @@
       $el: $(el),
       options: $.extend({}, $.coursetour.defaults, options)
     };
-    console.log(tour);
 
     // createHTML methods;
     var createHTML = {
@@ -28,6 +27,7 @@
 
         this.getContent().done(function() {
           createHTML.createAside();
+          initSliders();
         });
 
       },
@@ -43,11 +43,11 @@
       },
       createCarousel: function() {
 
-        this.$el.append('<div class="coursetour-carousel"></div>');
+        this.$el.append('<div class="coursetour-carousel owl-carousel owl-theme"></div>');
         var $div = this.$el.find('.coursetour-carousel');
 
         for(var i=1; i <= this.options.holes; i++) {
-          $div.append('<div id="hole-'+i+'" class="hole-wrapper"><h1 class="text-center"><span class="glyphicon glyphicon-chevron-left pull-left"></span>HOLE '+i+'<span class="glyphicon glyphicon-chevron-right pull-right"></span></h1></div>');
+          $div.append('<div id="hole-'+i+'" class="hole-wrapper"><h1 class="text-center">HOLE '+i+'</h1></div>');
         }
 
       },
@@ -63,7 +63,7 @@
 
 
           // If there are images
-          if(true) {
+          if(true) { // CHANGE LATER
 
             $media.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-media-images-'+(i+1)+'" aria-controls="coursetour-media-images-'+(i+1)+'" role="tab" data-toggle="tab">Images</a></li>');
 
@@ -72,14 +72,17 @@
 
           }
 
-          // console.log(this.options.videos['hole'+(i+1)] !== undefined);
           // If there are videos
           if(this.options.videos['hole'+(i+1)] !== undefined) {
 
             $media.eq(i).find('.nav-tabs').append('<li role="presentation"><a href="#coursetour-media-videos-'+(i+1)+'" aria-controls="coursetour-media-videos-'+(i+1)+'" role="tab" data-toggle="tab">Videos</a></li>');
 
             // Video Tabs Pane
-            $media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active" id="coursetour-media-videos-'+(i+1)+'"><div id="coursetour-videos-slider-'+(i+1)+'" class="flexslider coursetour-videos"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-'+(i+1)+'" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
+            $media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane" id="coursetour-media-videos-'+(i+1)+'"><div id="coursetour-videos-slider-'+(i+1)+'" class="flexslider coursetour-videos"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-'+(i+1)+'" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
+
+            if(false) { // there are No images
+              $('#coursetour-media-videos-'+(i+1)).addClass('active');
+            }
 
           }
 
@@ -112,8 +115,6 @@
         var $videosSlider = this.$el.find('media .coursetour-videos > ul');
         var $videosCarousel = this.$el.find('media .coursetour-videos-carousel > ul');
 
-        // console.log('imagesSlider', $imagesSlider);
-
         for(var i=0; i < this.options.holes; i++) {
 
           var images = this.images['hole'+(i+1)];
@@ -126,7 +127,7 @@
           }
 
           var videos = this.options.videos['hole'+(i+1)];
-          console.log(videos);
+          // console.log(videos);
 
           if(videos !== undefined) {
             for(var k=0; k < videos.length; k++) {
@@ -144,7 +145,9 @@
 
         this.images = {
           hole1: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
-          hole3: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
+          hole2: ['3.jpg', '4.jpg', '5.jpg'],
+          hole3: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
+          hole4: ['1.jpg']
         };
 
       },
@@ -189,65 +192,91 @@
     // Sliders
     function initSliders() {
 
-      $(".coursetour-carousel").owlCarousel({
+      var owl = $(".coursetour-carousel");
+
+      owl.owlCarousel({
         items:1,
         margin:30,
         stagePadding:30,
-        smartSpeed:450
+        smartSpeed:450,
+        nav: true,
+        navElement: 'span',
+        navText: ['',''],
+        navContainer: '.hole-wrapper h1'
+        // dotsContainer: 'coursetour-nav'
+      });
+
+      $('.owl-prev').addClass('glyphicon glyphicon-chevron-left pull-left').first().hide();
+      $('.owl-next').addClass('glyphicon glyphicon-chevron-right pull-right').last().hide();
+
+      owl.on('changed.owl.carousel', function(event) {
+
+          var page = event.page.index;
       });
 
       $('.coursetour-nav ul li').click(function(){
         $('.coursetour-carousel').trigger('to.owl.carousel', 1);
       });
 
-      $('media .nav-tabs a').each(function() {
-        var $this = $(this);
-        $this.click(function (e) {
-            e.preventDefault();
-            $this.tab('show');
-            $($this.attr('href')).find('.flexslider').resize();
+      $('media .nav-tabs a').each(function(i, el) {
+
+        var $el = $(el);
+        $el.on('click', function (event) {
+            event.preventDefault();
+            $el.tab('show');
+            $('.flexslider').resize();
         });
+
       });
 
+      $('.coursetour-images').each(function(i, el) {
 
-      $('#coursetour-images-carousel').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        itemWidth: 210,
-        itemMargin: 5,
-        asNavFor: '#coursetour-images-slider'
+        $('#coursetour-images-carousel-'+(i+1)).flexslider({
+          animation: 'slide',
+          controlNav: false,
+          animationLoop: false,
+          slideshow: false,
+          itemWidth: 210,
+          itemMargin: 5,
+          asNavFor: '#coursetour-images-slider-'+(i+1)
+        });
+
+        $('#coursetour-images-slider-'+(i+1)).flexslider({
+          animation: "slide",
+          controlNav: false,
+          animationLoop: false,
+          sync: '#coursetour-images-carousel-'+(i+1)
+        });
+
       });
 
-      $('#coursetour-images-slider').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        sync: "#coursetour-images-carousel"
+      $('.coursetour-videos').each(function(i, el) {
+
+        $('#coursetour-videos-carousel-'+(i+1)).flexslider({
+          animation: "slide",
+          controlNav: false,
+          animationLoop: false,
+          slideshow: false,
+          itemWidth: 210,
+          itemMargin: 5,
+          asNavFor: '#coursetour-videos-slider-'+(i+1)
+        });
+
+        $('#coursetour-videos-slider-'+(i+1)).flexslider({
+          animation: 'slide',
+          useCSS: false,
+          controlNav: false,
+          animationLoop: false,
+          slideshow: false,
+          sync: '#coursetour-videos-carousel-'+(i+1)
+        });
+
       });
 
-      $('#coursetour-videos-carousel').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        itemWidth: 210,
-        itemMargin: 5,
-        asNavFor: '#coursetour-videos-slider'
-      });
-
-      $('#coursetour-videos-slider').flexslider({
-        animation: 'slide',
-        useCSS: false,
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        sync: "#coursetour-videos-carousel"
-      });
     }
 
     createHTML.init();
+
   };
 
   $.coursetour.defaults = {

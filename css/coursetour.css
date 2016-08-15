@@ -55,3 +55,20 @@ coursetour aside .tab-content {
 .coursetour-stats .blue {
   background-color: blue;
 }
+.hole-wrapper::after{
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+
+/* Owl Carousel */
+.owl-prev {
+  cursor: pointer;
+}
+.owl-next {
+  cursor: pointer;
+}
