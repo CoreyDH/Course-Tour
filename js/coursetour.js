@@ -33,12 +33,12 @@
       },
       createNav: function() {
 
-        this.$el.append('<div class="coursetour-nav"><ul></ul></div>');
-        var $ul = this.$el.find('.coursetour-nav ul');
+        this.$el.append('<div class="coursetour-nav"></div>');
+        // var $ul = this.$el.find('.coursetour-nav ul');
 
-        for(var i=1; i <= this.options.holes; i++) {
-          $ul.append('<li class="coursetour-nav-holes"><a href="#'+i+'">'+i+'</a></li>');
-        }
+        // for(var i=1; i <= this.options.holes; i++) {
+        //   $ul.append('<li class="coursetour-nav-holes"><a href="#'+i+'">'+i+'</a></li>');
+        // }
 
       },
       createCarousel: function() {
@@ -121,8 +121,8 @@
 
           if(images !== undefined) {
             for(var j=0; j < images.length; j++) {
-              $imagesSlider.eq(i).append('<li><img src="'+this.options.imageDir+'/'+images[j]+'" /></li>');
-              $imagesCarousel.eq(i).append('<li><img src="'+this.options.imageDir+'/'+images[j]+'" /></li>');
+              $imagesSlider.eq(i).append('<li><img src="'+this.options.imagesPath+'/'+images[j]+'" /></li>');
+              $imagesCarousel.eq(i).append('<li><img src="'+this.options.imagesPath+'/'+images[j]+'" /></li>');
             }
           }
 
@@ -192,6 +192,7 @@
     // Sliders
     function initSliders() {
 
+      // Setup Carousel
       var owl = $(".coursetour-carousel");
 
       owl.owlCarousel({
@@ -202,22 +203,21 @@
         nav: true,
         navElement: 'span',
         navText: ['',''],
-        navContainer: '.hole-wrapper h1'
-        // dotsContainer: 'coursetour-nav'
+        navContainer: '.hole-wrapper h1',
+        dotsContainer: '.coursetour-nav'
       });
 
+      // Add classes to prev and next buttons
       $('.owl-prev').addClass('glyphicon glyphicon-chevron-left pull-left').first().hide();
       $('.owl-next').addClass('glyphicon glyphicon-chevron-right pull-right').last().hide();
 
-      owl.on('changed.owl.carousel', function(event) {
-
-          var page = event.page.index;
+      // Add Hole # to dots
+      $('.owl-dot').each(function(i, el) {
+        $span = $(el).find('span');
+        $span.append(i+1);
       });
 
-      $('.coursetour-nav ul li').click(function(){
-        $('.coursetour-carousel').trigger('to.owl.carousel', 1);
-      });
-
+      // Fix sizing on tab open
       $('media .nav-tabs a').each(function(i, el) {
 
         var $el = $(el);
@@ -229,6 +229,7 @@
 
       });
 
+      // Flexslider
       $('.coursetour-images').each(function(i, el) {
 
         $('#coursetour-images-carousel-'+(i+1)).flexslider({
@@ -282,7 +283,7 @@
   $.coursetour.defaults = {
     holes: 18,
     videos: {},
-    imageDir: 'images/coursetour'
+    imagesPath: 'images/coursetour'
   };
 
   $.fn.coursetour = function(options) {
