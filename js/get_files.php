@@ -14,10 +14,10 @@ foreach($folders as &$folder) {
 		foreach($images as &$image) {
 			if(isset($image) && $image != '.' && $image != '..') {
 				
-			$folder = str_replace(' ','%20',$folder);
-			$image = str_replace(' ','%20',$image);
-			
-			$files[] = $folder.'/'.$image;
+				$folder = str_replace(' ','%20',$folder);
+				$image = str_replace(' ','%20',$image);
+				
+				$files[] = $folder.'/'.$image;
 			
 			}
 		}
