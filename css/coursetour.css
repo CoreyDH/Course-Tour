@@ -4,14 +4,14 @@
   padding: 10px;
   border-radius: 5px;
 }
-coursetour .flexslider {
+.coursetour-wrapper .flexslider {
   margin: 0;
 }
-coursetour media .tab-content {
+.coursetour-wrapper .coursetour-media .tab-content {
   border: 1px solid #ddd;
   border-top: 0;
 }
-coursetour aside .tab-content {
+.coursetour-wrapper .coursetour-aside .tab-content {
   border: 1px solid #ddd;
   border-top: 0;
 }
