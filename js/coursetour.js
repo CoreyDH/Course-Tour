@@ -23,19 +23,27 @@
 				this.createNav();
 				this.createCarousel();
 
+				var mediaPromise, infoPromise;
+
 				if (this.options.media) {
-					this.getImages().done(function() {
+					mediaPromise = this.getImages().done(function() {
 						createHTML.createMedia();
 						createHTML.createSliders();
+						console.log('hit');
 						initSliders();
 					});
 				}
 
 				if (this.options.info) {
-					this.getContent().done(function() {
+					infoPromise = this.getContent().done(function() {
 						createHTML.createAside();
+						console.log('hit');
 					});
 				}
+
+				$.when(mediaPromise, infoPromise).done(function() {
+					createHTML.checkColumns();
+				});
 
 				initCarousel();
 
@@ -47,7 +55,6 @@
 
 				for (var i = 0; i < this.options.holes; i++) {
 
-					console.log(i + 1, this.options.videos['hole' + (i + 1)] === undefined);
 					if ((!this.options.images || !this.options.images[i]) && this.options.videos['hole' + (i + 1)] === undefined) {
 
 						$media.eq(i).hide();
@@ -86,13 +93,14 @@
 				if (this.options.images || this.options.videos) {
 					this.wrapper.find('.hole-wrapper').append('<div class="coursetour-media col-md-8"></div>');
 					var $media = this.wrapper.find('.hole-wrapper > .coursetour-media');
-					var vidOnly = []; // Add active class if there's only video
+					var vidOnly;
 
 					for (var i = 0; i < $media.length; i++) {
 
+						vidOnly = ''; // Add active class if there's only video
+
 						// Nav Tabs
 						$media.eq(i).append('<ul class="nav nav-tabs" role="tablist"></ul><div class="tab-content"></div>');
-
 
 						// If there are images
 						if (this.options.images.length > 0 ? this.options.images[i] : this.options.images) {
@@ -104,17 +112,17 @@
 
 						} else {
 
-							vidOnly[i] = 'active';
+							vidOnly = 'active';
 
 						}
 
 						// If there are videos
 						if (this.options.videos['hole' + (i + 1)] !== undefined) {
 
-							$media.eq(i).find('.nav-tabs').append('<li role="presentation" class="' + vidOnly[i] + '"><a href="#coursetour-media-videos-' + (i + 1) + '" aria-controls="coursetour-media-videos-' + (i + 1) + '" role="tab" data-toggle="tab">Videos</a></li>');
+							$media.eq(i).find('.nav-tabs').append('<li role="presentation" class="' + vidOnly + '"><a href="#coursetour-media-videos-' + (i + 1) + '" aria-controls="coursetour-media-videos-' + (i + 1) + '" role="tab" data-toggle="tab">Videos</a></li>');
 
 							// Video Tabs Pane
-							$media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + vidOnly[i] + ' coursetour-videos" id="coursetour-media-videos-' + (i + 1) + '"><div id="coursetour-videos-slider-' + (i + 1) + '" class="flexslider coursetour-videos-slider"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-' + (i + 1) + '" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
+							$media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + vidOnly + ' coursetour-videos" id="coursetour-media-videos-' + (i + 1) + '"><div id="coursetour-videos-slider-' + (i + 1) + '" class="flexslider coursetour-videos-slider"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-' + (i + 1) + '" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
 
 						}
 
@@ -142,7 +150,6 @@
 							$imagesCarousel.eq(imgCount).append('<li><img src="' + this.options.imagesPath + '/hole' + (i + 1) + '/' + images[j] + '" /></li>');
 						}
 
-						console.log(imgCount, images);
 						imgCount++;
 					}
 
@@ -241,9 +248,11 @@
 
 				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-md-4"><div class="row"></div></div>');
 				var $aside = this.wrapper.find('.hole-wrapper > .coursetour-aside > .row');
-				var statsOnly = this.options.description ? '' : 'active'; // Add active class if there's only stats
+				var statsOnly;
 
 				for (var i = 0; i < $aside.length; i++) {
+
+					statsOnly = '';
 
 					$aside.eq(i).append('<ul class="nav nav-tabs" role="tablist"></ul><div class="tab-content"></div>');
 
@@ -253,6 +262,10 @@
 
 						// Description Tabs Pane
 						$aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active coursetour-desc" id="coursetour-aside-desc-' + (i + 1) + '">' + this.description[i] + '</div>');
+
+					} else {
+
+						statsOnly = 'active';
 
 					}
 
@@ -264,8 +277,6 @@
 						$aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + statsOnly + ' coursetour-stats" id="coursetour-aside-stats-' + (i + 1) + '">' + this.stats[i] + '</div>');
 
 					}
-
-
 
 				}
 
@@ -294,6 +305,7 @@
 							createHTML.options.description = false;
 						}
 					});
+
 				}
 
 				function getStats(index) {
@@ -309,6 +321,7 @@
 							createHTML.options.stats = false;
 						}
 					});
+
 				}
 
 			}
@@ -325,7 +338,6 @@
 			owl.owlCarousel({
 				items: 1,
 				margin: 30,
-				stagePadding: 30,
 				smartSpeed: 450,
 				nav: true,
 				navElement: 'span',
