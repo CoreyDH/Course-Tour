@@ -57,6 +57,48 @@
 		};
 		/* End YouTube API */
 
+		var loader = {
+
+			init: function(id) {
+
+				this.$el = $('#' + id);
+
+				if (tour.options.loader) {
+					this.$el.show();
+					this.loadSpinner();
+				}
+
+			},
+
+			loadSpinner: function() {
+
+				this.$el.append('<div class="coursetour-loader-spinner"></div>');
+
+				$spinner = this.$el.find('.coursetour-loader-spinner');
+
+				var parentWidth = this.$el.width();
+				var parentHeight = this.$el.clientHeight;
+
+				var width = $spinner.width();
+				var height = $spinner.height();
+
+				$spinner.css({
+					top: parentHeight / 2 - height / 2,
+					left: parentWidth / 2 - width / 2
+				});
+
+				console.log(width);
+
+			},
+
+			complete: function() {
+
+				this.$el.fadeOut();
+
+			}
+
+		};
+
 		/* construct HTML, load media & descriptions if there are any */
 		var createHTML = {
 
@@ -72,6 +114,7 @@
 				this.player = [];
 
 				this.createWrapper();
+				this.createLoader();
 				this.createNav();
 				this.createCarousel();
 
@@ -94,6 +137,7 @@
 
 				$.when(mediaPromise, infoPromise).done(function() {
 					createHTML.checkColumns();
+					loader.complete();
 				});
 
 				initCarousel();
@@ -122,6 +166,12 @@
 
 				this.$el.append('<div class="coursetour-wrapper"></div>');
 				this.wrapper = this.$el.find('.coursetour-wrapper');
+
+			},
+			createLoader: function() {
+
+				this.wrapper.append('<div id="coursetour-' + this.id + '-loader" " class="coursetour-loader"></div>');
+				loader.init('coursetour-' + this.id + '-loader');
 
 			},
 			createNav: function() {
@@ -233,7 +283,7 @@
 					data: {
 						imagesPath: tour.options.imagesPath
 					},
-					url: 'js/get_files.php',
+					url: window.location.pathname + 'src/js/get_files.php',
 					success: function(files) {
 
 						if (files) {
@@ -267,7 +317,6 @@
 					var hole = [];
 					var img = [];
 					var obj = setHoleKeys();
-					console.log(file, file.length);
 
 					for (var i = 0; i < file.length; i++) {
 
@@ -507,7 +556,8 @@
 		images: true, // displays images
 		description: true, // displays descriptions
 		stats: true, // displays stats
-		imagesPath: 'images/coursetour' // path to the image folder, will read folders inside and relate to hole # in ascending order
+		imagesPath: 'images/coursetour', // path to the image folder, will read folders inside and relate to hole # in ascending order
+		loader: true // display load screen
 	};
 
 	// Setting Global for Multiple coursetour on load
