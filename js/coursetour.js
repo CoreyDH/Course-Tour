@@ -4,27 +4,30 @@
 
 		var tour = {
 			$el: $(el),
+			id: $(el).attr('id'),
 			options: $.extend({}, $.coursetour.defaults, options)
 		};
 
-		// YouTube API
+		/* YouTube API */
 		var yt = {
 
 			init: function() {
 
-				var tag = document.createElement('script');
-
-				tag.src = "https://www.youtube.com/iframe_api";
 				var firstScriptTag = document.getElementsByTagName('script')[0];
-				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-				// onYouTubeIframeAPIReady function executed after API loads, must be on global scope
-				window.onYouTubeIframeAPIReady = function() {
+				if (firstScriptTag.src !== 'https://www.youtube.com/iframe_api') {
+					var tag = document.createElement('script');
+					tag.src = "https://www.youtube.com/iframe_api";
+					firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-					// Load Course Tour
-					createHTML.init();
+					// onYouTubeIframeAPIReady function executed after API loads, must be on global scope
+					window.onYouTubeIframeAPIReady = function() {
 
-				};
+						// Load Course Tour
+						createHTML.init();
+
+					};
+				}
 
 			},
 
@@ -73,13 +76,15 @@
 			}
 
 		};
+		/* End YouTube API */
 
-		// createHTML methods;
+		/* construct HTML, load media & descriptions if there are any */
 		var createHTML = {
 
 			init: function() {
 
 				this.$el = tour.$el;
+				this.id = tour.id;
 				this.options = tour.options;
 
 				this.images = [];
@@ -151,7 +156,7 @@
 				var $div = this.wrapper.find('.coursetour-carousel');
 
 				for (var i = 1; i <= this.options.holes; i++) {
-					$div.append('<div id="hole-' + i + '" class="hole-wrapper"><h1 class="text-center">HOLE ' + i + '</h1></div>');
+					$div.append('<div id="hole-' + this.id + '-' + i + '" class="hole-wrapper"><h1 class="text-center">HOLE ' + i + '</h1></div>');
 				}
 
 			},
@@ -172,10 +177,10 @@
 						// If there are images
 						if (this.options.images.length > 0 ? this.options.images[i] : this.options.images) {
 
-							$media.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-media-images-' + (i + 1) + '" aria-controls="coursetour-media-images-' + (i + 1) + '" role="tab" data-toggle="tab">Images</a></li>');
+							$media.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-' + this.id + '-media-images-' + (i + 1) + '" aria-controls="coursetour-media-images-' + (i + 1) + '" role="tab" data-toggle="tab">Images</a></li>');
 
 							// Images Tabs Pane
-							$media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active coursetour-images" id="coursetour-media-images-' + (i + 1) + '"><div id="coursetour-images-slider-' + (i + 1) + '" class="flexslider coursetour-images-slider"><ul class="slides"></ul></div><div id="coursetour-images-carousel-' + (i + 1) + '" class="flexslider coursetour-images-carousel"><ul class="slides"></ul></div>');
+							$media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active coursetour-images" id="coursetour-' + this.id + '-media-images-' + (i + 1) + '"><div id="coursetour-' + this.id + '-images-slider-' + (i + 1) + '" class="flexslider coursetour-images-slider"><ul class="slides"></ul></div><div id="coursetour-' + this.id + '-images-carousel-' + (i + 1) + '" class="flexslider coursetour-images-carousel"><ul class="slides"></ul></div>');
 
 						} else {
 
@@ -186,10 +191,10 @@
 						// If there are videos
 						if (this.options.videos['hole' + (i + 1)] !== undefined) {
 
-							$media.eq(i).find('.nav-tabs').append('<li role="presentation" class="' + vidOnly + '"><a href="#coursetour-media-videos-' + (i + 1) + '" aria-controls="coursetour-media-videos-' + (i + 1) + '" role="tab" data-toggle="tab">Videos</a></li>');
+							$media.eq(i).find('.nav-tabs').append('<li role="presentation" class="' + vidOnly + '"><a href="#coursetour-' + this.id + '-media-videos-' + (i + 1) + '" aria-controls="coursetour-media-videos-' + (i + 1) + '" role="tab" data-toggle="tab">Videos</a></li>');
 
 							// Video Tabs Pane
-							$media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + vidOnly + ' coursetour-videos" id="coursetour-media-videos-' + (i + 1) + '"><div id="coursetour-videos-slider-' + (i + 1) + '" class="flexslider coursetour-videos-slider"><ul class="slides"></ul></div><div id="coursetour-videos-carousel-' + (i + 1) + '" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
+							$media.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + vidOnly + ' coursetour-videos" id="coursetour-' + this.id + '-media-videos-' + (i + 1) + '"><div id="coursetour-' + this.id + '-videos-slider-' + (i + 1) + '" class="flexslider coursetour-videos-slider"><ul class="slides"></ul></div><div id="coursetour-' + this.id + '-videos-carousel-' + (i + 1) + '" class="flexslider coursetour-videos-carousel"><ul class="slides"></ul></div>');
 
 						}
 
@@ -228,10 +233,10 @@
 
 							videos[k] = yt.parseLink(videos[k]);
 
-							$videosSlider.eq(videoCount).append('<li><div id="yt-' + (i + 1) + '-' + k + '"></div></li>');
+							$videosSlider.eq(videoCount).append('<li><div id="yt-' + this.id + '-' + (i + 1) + '-' + k + '"></div></li>');
 							$videosCarousel.eq(videoCount).append('<li><img src="https://i.ytimg.com/vi/' + videos[k] + '/hqdefault.jpg" /></li>');
 
-							this.player.push(yt.newVid('yt-' + (i + 1) + '-' + k, videos[k]));
+							this.player.push(yt.newVid('yt-' + this.id + '-' + (i + 1) + '-' + k, videos[k]));
 						}
 
 						videoCount++;
@@ -320,23 +325,24 @@
 
 					if (this.options.description && this.description[i]) {
 
-						$aside.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-aside-desc-' + (i + 1) + '" aria-controls="coursetour-aside-desc-' + (i + 1) + '" role="tab" data-toggle="tab">Description</a></li>');
+						$aside.eq(i).find('.nav-tabs').append('<li role="presentation" class="active"><a href="#coursetour-' + this.id + '-aside-desc-' + (i + 1) + '" aria-controls="coursetour-aside-desc-' + (i + 1) + '" role="tab" data-toggle="tab">Description</a></li>');
 
 						// Description Tabs Pane
-						$aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active coursetour-desc" id="coursetour-aside-desc-' + (i + 1) + '">' + this.description[i] + '</div>');
+						$aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane active coursetour-desc" id="coursetour-' + this.id + '-aside-desc-' + (i + 1) + '">' + this.description[i] + '</div>');
 
 					} else {
 
+						// Display tab if Description does not exist
 						statsOnly = 'active';
 
 					}
 
 					if (this.options.stats && this.stats[i]) {
 
-						$aside.eq(i).find('.nav-tabs').append('<li role="presentation" class="' + statsOnly + '"><a href="#coursetour-aside-stats-' + (i + 1) + '" aria-controls="coursetour-aside-stats-' + (i + 1) + '" role="tab" data-toggle="tab">Stats</a></li>');
+						$aside.eq(i).find('.nav-tabs').append('<li role="presentation" class="' + statsOnly + '"><a href="#coursetour-' + this.id + '-aside-stats-' + (i + 1) + '" aria-controls="coursetour-aside-stats-' + (i + 1) + '" role="tab" data-toggle="tab">Stats</a></li>');
 
 						// Stats Tabs Pane
-						$aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + statsOnly + ' coursetour-stats" id="coursetour-aside-stats-' + (i + 1) + '">' + this.stats[i] + '</div>');
+						$aside.eq(i).find('.tab-content').append('<div role="tabpanel" class="tab-pane ' + statsOnly + ' coursetour-stats" id="coursetour-' + this.id + '-aside-stats-' + (i + 1) + '">' + this.stats[i] + '</div>');
 
 					}
 
@@ -389,13 +395,15 @@
 			}
 
 		};
-		// end createHTML
+		/* End createHTML */
 
 		// Carousel
 		function initCarousel() {
 
 			// Setup Carousel
-			var owl = $(".coursetour-carousel");
+			var owl = tour.$el.find(".coursetour-carousel");
+			var holeWrap = tour.$el.find('.hole-wrapper h1');
+			var navWrap = tour.$el.find('.coursetour-nav');
 
 			owl.owlCarousel({
 				items: 1,
@@ -404,16 +412,16 @@
 				nav: true,
 				navElement: 'span',
 				navText: ['', ''],
-				navContainer: '.hole-wrapper h1',
-				dotsContainer: '.coursetour-nav'
+				navContainer: holeWrap,
+				dotsContainer: navWrap
 			});
 
 			// Add classes to prev and next buttons, hide start and end
-			$('.owl-prev').addClass('glyphicon glyphicon-chevron-left pull-left').first().hide();
-			$('.owl-next').addClass('glyphicon glyphicon-chevron-right pull-right').last().hide();
+			tour.$el.find('.owl-prev').addClass('glyphicon glyphicon-chevron-left pull-left').first().hide();
+			tour.$el.find('.owl-next').addClass('glyphicon glyphicon-chevron-right pull-right').last().hide();
 
 			// Add Hole # to dots
-			$('.owl-dot').each(function(i, el) {
+			tour.$el.find('.owl-dot').each(function(i, el) {
 				$span = $(el).find('span');
 				$span.append(i + 1);
 			});
@@ -428,23 +436,22 @@
 
 		}
 
-		// Sliders
+		/* Sliders & jQuery Listeners */
 		function initSliders() {
 
 			// Fix sizing on tab open
-			$('.coursetour-media .nav-tabs a').each(function(i, el) {
+			tour.$el.find('.coursetour-media .nav-tabs a').each(function(i, el) {
 
-				var $el = $(el);
-				$el.on('click', function(event) {
+				$(el).on('click', function(event) {
 					event.preventDefault();
-					$el.tab('show');
+					$(el).tab('show');
 					$('.flexslider').resize();
 				});
 
 			});
 
 			// Flexslider
-			$('.coursetour-images').each(function(i, el) {
+			tour.$el.find('.coursetour-images').each(function(i, el) {
 
 				var sliderId = $(el).find('.coursetour-images-slider').attr('id');
 				var carouselId = $(el).find('.coursetour-images-carousel').attr('id');
@@ -468,7 +475,7 @@
 
 			});
 
-			$('.coursetour-videos').each(function(i, el) {
+			tour.$el.find('.coursetour-videos').each(function(i, el) {
 
 				var sliderId = $(el).find('.coursetour-videos-slider').attr('id');
 				var carouselId = $(el).find('.coursetour-videos-carousel').attr('id');
@@ -495,13 +502,13 @@
 			});
 
 			// Bootstrap
-
 			$(tour.$el).find('.nav-tabs a').on('click', function() {
 				// Pause any playing if there are any
 				yt.pauseAll(createHTML.player);
 			});
 
 		}
+		/* End initSliders */
 
 		if (tour.options.videos) {
 
@@ -518,14 +525,14 @@
 
 	// Course Tour Defaults
 	$.coursetour.defaults = {
-		holes: 18,
-		info: true,
-		media: true,
-		videos: false,
-		images: true,
-		description: true,
-		stats: true,
-		imagesPath: 'images/coursetour'
+		holes: 18, // # of holes
+		info: true, // aside panel, holds description & stats
+		media: true, // media panel, holds images & video slideshows
+		videos: false, // videos, can be set to object with an array of youtube videos. ex. { hole1: ['youtube link here'] }
+		images: true, // displays images
+		description: true, // displays descriptions
+		stats: true, // displays stats
+		imagesPath: 'images/coursetour' // path to the image folder, will read folders inside and relate to hole # in ascending order
 	};
 
 	$.fn.coursetour = function(options) {
