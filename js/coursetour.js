@@ -7,6 +7,73 @@
 			options: $.extend({}, $.coursetour.defaults, options)
 		};
 
+		// YouTube API
+		var yt = {
+
+			init: function() {
+
+				var tag = document.createElement('script');
+
+				tag.src = "https://www.youtube.com/iframe_api";
+				var firstScriptTag = document.getElementsByTagName('script')[0];
+				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+				// onYouTubeIframeAPIReady function executed after API loads, must be on global scope
+				window.onYouTubeIframeAPIReady = function() {
+
+					// Load Course Tour
+					createHTML.init();
+
+				};
+
+			},
+
+			parseLink: function(url) {
+
+				var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+				var match = url.match(regExp);
+				return (match && match[7].length === 11) ? match[7] : url;
+
+			},
+
+			newVid: function(container, vid) {
+
+				function onPlayerReady(event) {
+
+					// console.log(event.target);
+
+				}
+
+				return new YT.Player(container, {
+					height: '383',
+					width: '100%',
+					videoId: vid,
+					events: {
+						onReady: onPlayerReady
+					}
+				});
+			},
+
+			pauseAll: function(arr) {
+
+				if (arr !== undefined) {
+
+					for (var i = 0; i < arr.length; i++) {
+
+						// If video is playing
+						if (arr[i].getPlayerState() === 1) {
+							console.log('hit pause');
+							arr[i].pauseVideo();
+						}
+
+					}
+
+				}
+
+			}
+
+		};
+
 		// createHTML methods;
 		var createHTML = {
 
@@ -18,6 +85,7 @@
 				this.images = [];
 				this.description = [];
 				this.stats = [];
+				this.player = [];
 
 				this.createWrapper();
 				this.createNav();
@@ -29,7 +97,7 @@
 					mediaPromise = this.getImages().done(function() {
 						createHTML.createMedia();
 						createHTML.createSliders();
-						console.log('hit');
+
 						initSliders();
 					});
 				}
@@ -37,7 +105,6 @@
 				if (this.options.info) {
 					infoPromise = this.getContent().done(function() {
 						createHTML.createAside();
-						console.log('hit');
 					});
 				}
 
@@ -159,22 +226,16 @@
 
 						for (var k = 0; k < videos.length; k++) {
 
-							videos[k] = parse_ytLink(videos[k]);
+							videos[k] = yt.parseLink(videos[k]);
 
-							$videosSlider.eq(videoCount).append('<li><iframe width="100%" height="383" src="https://www.youtube.com/embed/' + videos[k] + '" frameborder="0" allowfullscreen></iframe></li>');
+							$videosSlider.eq(videoCount).append('<li><div id="yt-' + (i + 1) + '-' + k + '"></div></li>');
 							$videosCarousel.eq(videoCount).append('<li><img src="https://i.ytimg.com/vi/' + videos[k] + '/hqdefault.jpg" /></li>');
+
+							this.player.push(yt.newVid('yt-' + (i + 1) + '-' + k, videos[k]));
 						}
 
 						videoCount++;
 					}
-
-				}
-
-				function parse_ytLink(url) {
-
-					var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-					var match = url.match(regExp);
-					return (match && match[7].length === 11) ? match[7] : url;
 
 				}
 
@@ -199,6 +260,7 @@
 						}
 
 					}
+
 				});
 
 				function checkImages(imgObj) {
@@ -346,7 +408,7 @@
 				dotsContainer: '.coursetour-nav'
 			});
 
-			// Add classes to prev and next buttons
+			// Add classes to prev and next buttons, hide start and end
 			$('.owl-prev').addClass('glyphicon glyphicon-chevron-left pull-left').first().hide();
 			$('.owl-next').addClass('glyphicon glyphicon-chevron-right pull-right').last().hide();
 
@@ -354,6 +416,14 @@
 			$('.owl-dot').each(function(i, el) {
 				$span = $(el).find('span');
 				$span.append(i + 1);
+			});
+
+			// Listener for slider complete change
+			owl.on('changed.owl.carousel', function() {
+
+				// Pause any playing if there are any
+				yt.pauseAll(createHTML.player);
+
 			});
 
 		}
@@ -424,9 +494,25 @@
 
 			});
 
+			// Bootstrap
+
+			$(tour.$el).find('.nav-tabs a').on('click', function() {
+				// Pause any playing if there are any
+				yt.pauseAll(createHTML.player);
+			});
+
 		}
 
-		createHTML.init();
+		if (tour.options.videos) {
+
+			// Initilize YouTube API
+			yt.init();
+
+		} else {
+
+			// Build HTML
+			createHTML.init();
+		}
 
 	};
 
