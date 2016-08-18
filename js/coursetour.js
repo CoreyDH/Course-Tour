@@ -11,26 +11,6 @@
 		/* YouTube API */
 		var yt = {
 
-			init: function() {
-
-				var firstScriptTag = document.getElementsByTagName('script')[0];
-
-				if (firstScriptTag.src !== 'https://www.youtube.com/iframe_api') {
-					var tag = document.createElement('script');
-					tag.src = "https://www.youtube.com/iframe_api";
-					firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-					// onYouTubeIframeAPIReady function executed after API loads, must be on global scope
-					window.onYouTubeIframeAPIReady = function() {
-
-						// Load Course Tour
-						createHTML.init();
-
-					};
-				}
-
-			},
-
 			parseLink: function(url) {
 
 				var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
@@ -65,7 +45,6 @@
 
 						// If video is playing
 						if (arr[i].getPlayerState() === 1) {
-							console.log('hit pause');
 							arr[i].pauseVideo();
 						}
 
@@ -122,8 +101,8 @@
 			},
 			checkColumns: function() {
 
-				$media = $('.coursetour-media');
-				$aside = $('.coursetour-aside');
+				$media = this.$el.find('.coursetour-media');
+				$aside = this.$el.find('.coursetour-aside');
 
 				for (var i = 0; i < this.options.holes; i++) {
 
@@ -288,11 +267,15 @@
 					var hole = [];
 					var img = [];
 					var obj = setHoleKeys();
+					console.log(file, file.length);
 
 					for (var i = 0; i < file.length; i++) {
 
 						var holder = file[i].split('/');
-						obj[holder[0]].push(holder[1]);
+
+						if (obj[holder[0]] !== undefined) {
+							obj[holder[0]].push(holder[1]);
+						}
 
 					}
 
@@ -510,16 +493,8 @@
 		}
 		/* End initSliders */
 
-		if (tour.options.videos) {
-
-			// Initilize YouTube API
-			yt.init();
-
-		} else {
-
-			// Build HTML
-			createHTML.init();
-		}
+		// Build HTML
+		createHTML.init();
 
 	};
 
@@ -535,8 +510,46 @@
 		imagesPath: 'images/coursetour' // path to the image folder, will read folders inside and relate to hole # in ascending order
 	};
 
+	// Setting Global for Multiple coursetour on load
+	var multiVideoTour = [];
+
 	$.fn.coursetour = function(options) {
-		new $.coursetour(this, options);
+
+		if (options.videos) {
+
+			multiVideoTour.push({
+				el: this,
+				options: options
+			});
+
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+
+			if (firstScriptTag.src !== 'https://www.youtube.com/iframe_api') {
+
+				var tag = document.createElement('script');
+				tag.src = "https://www.youtube.com/iframe_api";
+				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+			}
+
+			// onYouTubeIframeAPIReady function executed after API loads, must be on global scope
+			window.onYouTubeIframeAPIReady = function() {
+
+				for (var i = 0; i < multiVideoTour.length; i++) {
+
+					// Load Course Tour
+					new $.coursetour(multiVideoTour[i].el, multiVideoTour[i].options);
+
+				}
+
+			};
+
+		} else {
+
+			new $.coursetour(this, options);
+
+		}
+
 	};
 
 })(jQuery);
