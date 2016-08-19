@@ -4,7 +4,7 @@
 
 		var tour = {
 			$el: $(el),
-			id: $(el).attr('id'),
+			id: $(el).attr('id') ? $(el).attr('id') : $(el).index(),
 			options: $.extend({}, $.coursetour.defaults, options)
 		};
 
@@ -77,17 +77,15 @@
 				$spinner = this.$el.find('.coursetour-loader-spinner');
 
 				var parentWidth = this.$el.width();
-				var parentHeight = this.$el.clientHeight;
+				var parentHeight = this.$el.height();
 
 				var width = $spinner.width();
 				var height = $spinner.height();
 
 				$spinner.css({
-					top: parentHeight / 2 - height / 2,
+					top: '45%',
 					left: parentWidth / 2 - width / 2
 				});
-
-				console.log(width);
 
 			},
 
@@ -131,6 +129,8 @@
 
 				if (this.options.info) {
 					infoPromise = this.getContent().done(function() {
+						console.log(this.stats);
+						console.log(this.description);
 						createHTML.createAside();
 					});
 				}
@@ -138,7 +138,7 @@
 				$.when(mediaPromise, infoPromise).done(function() {
 					createHTML.checkColumns();
 
-					if (!tour.options.video) {
+					if (!tour.options.videos) {
 						loader.complete();
 					}
 
@@ -403,6 +403,7 @@
 						dataType: 'html',
 						success: function(html) {
 							createHTML.description.push(html);
+							console.log(createHTML.description.length);
 						},
 						error: function() {
 							console.log('Failed to get description pages');
@@ -535,6 +536,18 @@
 					sync: '#' + carouselId
 				});
 
+			});
+
+			$(tour.$el).find('.coursetour-videos-carousel').on('click', function() {
+				yt.pauseAll(createHTML.player);
+			});
+
+			$(tour.$el).find('.coursetour-videos-slider').on('click', '.flex-nav-prev', function() {
+				yt.pauseAll(createHTML.player);
+			});
+
+			$(tour.$el).find('.coursetour-videos-slider').on('click', '.flex-nav-next', function() {
+				yt.pauseAll(createHTML.player);
 			});
 
 			// Bootstrap

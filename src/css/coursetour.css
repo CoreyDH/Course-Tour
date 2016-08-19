@@ -34,7 +34,7 @@
   height: 100px;
   background-image: url(../img/loading_spinner.gif);
   background-size: cover;
-  border-width: 2px;
+  border-width: 5px;
   border-style: solid;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
