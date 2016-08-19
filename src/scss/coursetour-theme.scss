@@ -1,0 +1,65 @@
+@import "compass/css3";
+@import "_colors";
+
+.coursetour-carousel h1 {
+  color: #fff;
+  background-color: #2d2d2d;
+}
+
+.coursetour-wrapper {
+  .coursetour-media .tab-content, .coursetour-aside .tab-content {
+    border-color: $border-color;
+  }
+}
+
+.coursetour-desc, .coursetour-stats {
+  background-color: #fff;
+}
+
+.coursetour-loader {
+  background-color: rgba(0,0,0, 0.9);
+
+  .coursetour-loader-spinner {
+    border-color: $owl-dot-border-color;
+  }
+
+}
+
+.coursetour-stats {
+
+  .box {
+    border-color: #ccc;
+  }
+  .red {
+    background-color: red;
+  }
+  .blue {
+    background-color: blue;
+  }
+  .yellow {
+    background-color: yellow;
+  }
+
+  .black {
+    background-color: black;
+  }
+
+}
+
+.coursetour-nav {
+
+  .owl-dot {
+    color: #222;
+    background-color: #f1f1f1;
+    border-color: $border-color;
+  }
+  .owl-dot:hover {
+    border-color: $owl-dot-border-color;
+  }
+  .active {
+    color: #fff;
+    background-color: #00639e;
+    border-color: $owl-dot-border-color;
+  }
+
+}

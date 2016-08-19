@@ -23,7 +23,7 @@
 
 				function onPlayerReady(event) {
 
-					// console.log(event.target);
+					loader.complete();
 
 				}
 
@@ -137,7 +137,11 @@
 
 				$.when(mediaPromise, infoPromise).done(function() {
 					createHTML.checkColumns();
-					loader.complete();
+
+					if (!tour.options.video) {
+						loader.complete();
+					}
+
 				});
 
 				initCarousel();
