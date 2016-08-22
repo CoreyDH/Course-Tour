@@ -1,0 +1,49 @@
+.coursetour-carousel h1 {
+  color: #fff;
+  background-color: #2d2d2d;
+}
+
+.coursetour-wrapper .coursetour-media .tab-content, .coursetour-wrapper .coursetour-aside .tab-content {
+  border-color: #ddd;
+}
+
+.coursetour-desc, .coursetour-stats {
+  background-color: #fff;
+}
+
+.coursetour-loader {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.coursetour-loader .coursetour-loader-spinner {
+  border-color: #00adff;
+}
+
+.coursetour-stats .box {
+  border-color: #ccc;
+}
+.coursetour-stats .red {
+  background-color: red;
+}
+.coursetour-stats .blue {
+  background-color: blue;
+}
+.coursetour-stats .yellow {
+  background-color: yellow;
+}
+.coursetour-stats .black {
+  background-color: black;
+}
+
+.coursetour-nav .owl-dot {
+  color: #222;
+  background-color: #f1f1f1;
+  border-color: #ddd;
+}
+.coursetour-nav .owl-dot:hover {
+  border-color: #00adff;
+}
+.coursetour-nav .active {
+  color: #fff;
+  background-color: #00639e;
+  border-color: #00adff;
+}

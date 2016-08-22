@@ -77,10 +77,10 @@
 				$spinner = this.$el.find('.coursetour-loader-spinner');
 
 				var parentWidth = this.$el.width();
-				var parentHeight = this.$el.height();
-
 				var width = $spinner.width();
-				var height = $spinner.height();
+
+				// var parentHeight = this.$el.height();
+				// var height = $spinner.height();
 
 				$spinner.css({
 					top: '45%',
