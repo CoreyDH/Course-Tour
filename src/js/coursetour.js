@@ -119,12 +119,25 @@
 				var mediaPromise, infoPromise;
 
 				if (this.options.media) {
-					mediaPromise = this.getImages().done(function() {
+
+					if(this.options.images || this.options.videos) {
+						mediaPromise = this.getImages().done(function() {
+
+							createHTML.createMedia();
+							createHTML.createSliders();
+
+							initSliders();
+						});
+
+					} else {
+
 						createHTML.createMedia();
 						createHTML.createSliders();
 
 						initSliders();
-					});
+
+					}
+
 				}
 
 				if (this.options.info) {
@@ -136,7 +149,7 @@
 				$.when(mediaPromise, infoPromise).done(function() {
 					createHTML.checkColumns();
 
-					if (!tour.options.videos) {
+					if (!tour.options.media || !tour.options.videos) {
 						loader.complete();
 					}
 
@@ -152,21 +165,23 @@
 
 				for (var i = 0; i < this.options.holes; i++) {
 
-					if ((!this.options.images || !this.options.images[i]) && this.options.videos['hole' + (i + 1)] === undefined) {
+					if (!this.options.media || ((!this.options.images || !this.options.images[i]) && this.options.videos['hole' + (i + 1)] === undefined)) {
 
 						$media.eq(i).hide();
 						$aside.eq(i).removeClass('col-md-4').addClass('col-md-12');
 
-					} else if (!this.description[i] && !this.stats[i]) {
+					} else if (!this.options.info || (!this.description[i] && !this.stats[i])) {
+
 						$aside.eq(i).hide();
 						$media.eq(i).removeClass('col-md-8').addClass('col-md-12');
+
 					}
 				}
 
 			},
 			createWrapper: function() {
 
-				this.$el.append('<div class="coursetour-wrapper"></div>');
+				this.$el.append('<div class="row coursetour-wrapper"></div>');
 				this.wrapper = this.$el.find('.coursetour-wrapper');
 
 			},
