@@ -129,8 +129,6 @@
 
 				if (this.options.info) {
 					infoPromise = this.getContent().done(function() {
-						console.log(this.stats);
-						console.log(this.description);
 						createHTML.createAside();
 					});
 				}
@@ -287,9 +285,9 @@
 					data: {
 						imagesPath: tour.options.imagesPath
 					},
-					url: window.location.pathname + 'src/js/get_files.php',
+					url: 'get_files.php',
 					success: function(files) {
-
+						console.log(files);
 						if (files) {
 							self.images = sortImages(files);
 							self.options.images = checkImages(self.images);
@@ -399,11 +397,10 @@
 				function getDesc(index) {
 
 					return $.ajax({
-						url: 'collateral/coursetour-desc-' + index + '.htm',
+						url: tour.options.descriptionPath+'/coursetour-desc-' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.description.push(html);
-							console.log(createHTML.description.length);
 						},
 						error: function() {
 							console.log('Failed to get description pages');
@@ -416,13 +413,13 @@
 				function getStats(index) {
 
 					return $.ajax({
-						url: 'collateral/coursetour-stats-' + index + '.htm',
+						url: tour.options.descriptionPath+'/coursetour-stats-' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.stats.push(html);
 						},
 						error: function() {
-							console.log('Failed to get stats pages');
+							console.log('Failed to get stats pages', tour.options.descriptionPath);
 							createHTML.options.stats = false;
 						}
 					});
@@ -572,6 +569,7 @@
 		videos: false, // videos, can be set to object with an array of youtube videos. ex. { hole1: ['youtube link here'] }
 		images: true, // displays images
 		description: true, // displays descriptions
+		descriptionPath: '.', // description directory
 		stats: true, // displays stats
 		imagesPath: 'images/coursetour', // path to the image folder, will read folders inside and relate to hole # in ascending order
 		loader: true // display load screen

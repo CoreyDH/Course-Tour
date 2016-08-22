@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Course Tour</title>
+
+    <!-- Vendor -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../bower_components/flexslider/flexslider.css">
+    <link rel="stylesheet" href="../bower_components/owl.carousel/dist/assets/owl.carousel.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="./css/coursetour.css">
+    <link rel="stylesheet" href="./css/coursetour-theme.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <coursetour class="col-md-12"></coursetour>
+        </div>
+    </div>
+</body>
+
+<!-- Vendor -->
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="../bower_components/flexslider/jquery.flexslider.js"></script>
+<script src="../bower_components/owl.carousel/dist/owl.carousel.js"></script>
+
+<!-- Scripts -->
+<script src="./js/coursetour.js"></script>
+<script>
+    $('coursetour').coursetour({
+        holes: 18,
+        imagesPath: 'demo/collateral/images',
+        videos: {
+            hole1: ['auLBLk4ibAk', 'TWPcid4l74U'],
+            hole2: ['DDRPtg0kmJU', 'KEI4qSrkPAs', '3IpUqy-1em0'],
+            hole3: ['TWPcid4l74U'],
+            hole4: ['DDRPtg0kmJU', 'KEI4qSrkPAs', '3IpUqy-1em0', 'auLBLk4ibAk', 'TWPcid4l74U'],
+        }
+    });
+</script>
+
+</html>
