@@ -66,34 +66,56 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
-		  dist: {
-		    files: [
-		      // includes files within path
-					{expand: true, flatten: true, src: ['src/css/coursetour-theme.css'], dest: 'dist/css', filter: 'isFile'},
-					{expand: true, flatten: true, src: ['src/img/*'], dest: 'dist/img', filter: 'isFile'},
-					{expand: true, flatten: true, src: ['bower_components/flexslider/fonts/*'], dest: 'dist/css/fonts', filter: 'isFile'},
-		    ],
-		  },
+			dist: {
+				files: [
+					// includes files within path
+					{
+						expand: true,
+						flatten: true,
+						src: ['src/css/coursetour-theme.css'],
+						dest: 'dist/css',
+						filter: 'isFile'
+					}, {
+						expand: true,
+						flatten: true,
+						src: ['src/img/*'],
+						dest: 'dist/img',
+						filter: 'isFile'
+					}, {
+						expand: true,
+						flatten: true,
+						src: ['bower_components/flexslider/fonts/*'],
+						dest: 'dist/css/fonts',
+						filter: 'isFile'
+					}, {
+						expand: true,
+						flatten: true,
+						src: ['bower_components/bootstrap/fonts-only/fonts/*'],
+						dest: 'dist/fonts',
+						filter: 'isFile'
+					},
+				],
+			},
 		},
 
 		uglify: {
-	    dist: {
-	      files: {
-	        'dist/js/coursetour.min.js': ['src/js/coursetour.js', 'bower_components/flexslider/jquery.flexslider.js', 'bower_components/owl.carousel/dist/owl.carousel.js']
-	      }
-	    }
-	  },
+			dist: {
+				files: {
+					'dist/js/coursetour.min.js': ['src/js/coursetour.js', 'bower_components/flexslider/jquery.flexslider.js', 'bower_components/owl.carousel/dist/owl.carousel.js']
+				}
+			}
+		},
 
 		cssmin: {
-		  options: {
-		    shorthandCompacting: false,
-		    roundingPrecision: -1
-		  },
-		  dist: {
-		    files: {
-		      'dist/css/coursetour.min.css': ['src/css/coursetour.css', 'bower_components/flexslider/flexslider.css', 'bower_components/owl.carousel/dist/assets/owl.carousel.css'],
-		    }
-		  }
+			options: {
+				shorthandCompacting: false,
+				roundingPrecision: -1
+			},
+			dist: {
+				files: {
+					'dist/css/coursetour.min.css': ['src/css/coursetour.css', 'bower_components/bootstrap/fonts-only/css/bootstrap.css', 'bower_components/flexslider/flexslider.css', 'bower_components/owl.carousel/dist/assets/owl.carousel.css'],
+				}
+			}
 		}
 
 	}); // End Config

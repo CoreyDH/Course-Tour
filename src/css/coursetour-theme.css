@@ -6,6 +6,12 @@
 .coursetour-wrapper .coursetour-media .tab-content, .coursetour-wrapper .coursetour-aside .tab-content {
   border-color: #ddd;
 }
+.coursetour-wrapper .nav-tabs > li > a:hover {
+  color: #00adff;
+}
+.coursetour-wrapper .nav-tabs > li > a:hover {
+  color: #00639e;
+}
 
 .coursetour-desc, .coursetour-stats {
   background-color: #fff;
@@ -13,9 +19,6 @@
 
 .coursetour-loader {
   background-color: rgba(0, 0, 0, 0.9);
-}
-.coursetour-loader .coursetour-loader-spinner {
-  border-color: #00adff;
 }
 
 .coursetour-stats .box {

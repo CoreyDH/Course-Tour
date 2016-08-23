@@ -120,7 +120,7 @@
 
 				if (this.options.media) {
 
-					if(this.options.images || this.options.videos) {
+					if (this.options.images || this.options.videos) {
 						mediaPromise = this.getImages().done(function() {
 
 							createHTML.createMedia();
@@ -398,7 +398,7 @@
 				}
 
 			},
-			getContent: function(callback) {
+			getContent: function() {
 
 				var deferred = [];
 
@@ -412,7 +412,7 @@
 				function getDesc(index) {
 
 					return $.ajax({
-						url: tour.options.descriptionPath+'/coursetour-desc-' + index + '.htm',
+						url: tour.options.descriptionPath + '/coursetour-desc-' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.description.push(html);
@@ -428,7 +428,7 @@
 				function getStats(index) {
 
 					return $.ajax({
-						url: tour.options.descriptionPath+'/coursetour-stats-' + index + '.htm',
+						url: tour.options.descriptionPath + '/coursetour-stats-' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.stats.push(html);

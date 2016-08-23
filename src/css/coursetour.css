@@ -1,18 +1,19 @@
-.coursetour-carousel h1 {
+.coursetour-wrapper {
+  position: relative;
+  /* Course Tour Navigation */
+  /* Flexslider */
+}
+.coursetour-wrapper .coursetour-carousel h1 {
   padding: 10px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-.coursetour-carousel h1 .owl-prev {
+.coursetour-wrapper .coursetour-carousel h1 .owl-prev {
   cursor: pointer;
 }
-.coursetour-carousel h1 .owl-next {
+.coursetour-wrapper .coursetour-carousel h1 .owl-next {
   cursor: pointer;
-}
-
-.coursetour-wrapper {
-  position: relative;
 }
 .coursetour-wrapper .flexslider {
   margin: 0;
@@ -21,33 +22,25 @@
   border-width: 0 1px 1px 1px;
   border-style: solid;
 }
-
-.coursetour-loader {
+.coursetour-wrapper .coursetour-loader {
   display: none;
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 900;
 }
-.coursetour-loader .coursetour-loader-spinner {
+.coursetour-wrapper .coursetour-loader .coursetour-loader-spinner {
   width: 100px;
   height: 100px;
   background-image: url(../img/loading_spinner.gif);
   background-size: cover;
-  border-width: 5px;
-  border-style: solid;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
   position: absolute;
   z-index: 1000;
 }
-
-.coursetour-desc, .coursetour-stats {
+.coursetour-wrapper .coursetour-desc, .coursetour-wrapper .coursetour-stats {
   padding: 15px;
 }
-
-.coursetour-stats .box {
+.coursetour-wrapper .coursetour-stats .box {
   height: 30px;
   width: 30px;
   -moz-border-radius: 5px;
@@ -57,8 +50,7 @@
   border-width: 1px;
   border-style: solid;
 }
-
-.hole-wrapper::after {
+.coursetour-wrapper .hole-wrapper::after {
   visibility: hidden;
   display: block;
   font-size: 0;
@@ -66,13 +58,11 @@
   clear: both;
   height: 0;
 }
-
-/* Course Tour Navigation */
-.coursetour-nav {
+.coursetour-wrapper .coursetour-nav {
   margin: auto;
   text-align: center;
 }
-.coursetour-nav .owl-dot {
+.coursetour-wrapper .coursetour-nav .owl-dot {
   font-size: 16px;
   display: inline-block;
   font-weight: 600;
@@ -86,4 +76,15 @@
   -webkit-border-radius: 50%;
   border-radius: 50%;
   cursor: pointer;
+}
+.coursetour-wrapper .flex-direction-nav a {
+  padding-top: 10px;
+}
+.coursetour-wrapper .flex-direction-nav a, .coursetour-wrapper .flex-direction-nav a:before {
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.coursetour-fck {
+  display: none;
 }
