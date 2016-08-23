@@ -1,15 +1,18 @@
 <?php
+$path=$_SERVER[SCRIPT_FILENAME]; $parts=explode("/",$path); if ($_SERVER[HTTP_HOST] == "coursetrends.com") { $location=$parts[7]; } elseif ($_SERVER[HTTP_HOST] == "www.coursetrends.com") { $location=$parts[7]; } else { $location=$parts[7];}
 
-$path = $_REQUEST['imagesPath'];
-$path = $path.'/';
+$imgPath = $_REQUEST['imagesPath'];
+
+$dir = '/golf/'.$parts[6].'/'.$location.'/'.$imgPath.'/'; // Main Directory
+
 $files = [];
 
-$folders = preg_grep('/^([^.])/',scandir($_SERVER['DOCUMENT_ROOT'].$path)); // Scan Folders
+$folders = preg_grep('/^([^.])/',scandir($_SERVER['DOCUMENT_ROOT'].$dir)); // Scan Folders
 
 foreach($folders as &$folder) {
 
 	if(isset($folder)) {
-		$images = preg_grep('/^([^.])/',scandir($_SERVER['DOCUMENT_ROOT'].$path.'/'.$folder)); // Scan Images
+		$images = preg_grep('/^([^.])/',scandir($_SERVER['DOCUMENT_ROOT'].$dir.'/'.$folder)); // Scan Images
 
 		foreach($images as &$image) {
 			if(isset($image) && $image != '.' && $image != '..') {
@@ -25,7 +28,7 @@ foreach($folders as &$folder) {
 }
 
 if(count($files) == 0) {
-	echo $_SERVER['DOCUMENT_ROOT'].$path;
+	echo $_SERVER['DOCUMENT_ROOT'].$dir;
 } else {
 	echo implode(',', $files);
 }

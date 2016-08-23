@@ -257,6 +257,8 @@
 				var $videosCarousel = this.wrapper.find('.coursetour-media .coursetour-videos-carousel > ul');
 				var videoCount = 0; // Counter for Slider/Carousel arrays
 				var imgCount = 0;
+				var path = getPath();
+
 
 				for (var i = 0; i < this.options.holes; i++) {
 
@@ -264,8 +266,8 @@
 
 					if (images !== undefined && images.length > 0) {
 						for (var j = 0; j < images.length; j++) {
-							$imagesSlider.eq(imgCount).append('<li><img src="' + this.options.imagesPath + '/hole' + (i + 1) + '/' + images[j] + '" /></li>');
-							$imagesCarousel.eq(imgCount).append('<li><img src="' + this.options.imagesPath + '/hole' + (i + 1) + '/' + images[j] + '" /></li>');
+							$imagesSlider.eq(imgCount).append('<li><img src="' + path + '/' + this.options.imagesPath + '/hole' + (i + 1) + '/' + images[j] + '" /></li>');
+							$imagesCarousel.eq(imgCount).append('<li><img src="' + path + '/' + this.options.imagesPath + '/hole' + (i + 1) + '/' + images[j] + '" /></li>');
 						}
 
 						imgCount++;
@@ -287,6 +289,13 @@
 
 						videoCount++;
 					}
+
+				}
+
+				function getPath() {
+
+					var dir = window.location.pathname.split('/');
+					return (dir.length > 3 ? '/' + dir[1] + '/' + dir[2] + '/' + dir[3] : '');
 
 				}
 
