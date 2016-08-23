@@ -72,8 +72,8 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						flatten: true,
-						src: ['src/get_files.php'],
-						dest: 'dist',
+						src: ['src/page/*'],
+						dest: 'dist/page',
 						filter: 'isFile'
 					}, {
 						expand: true,

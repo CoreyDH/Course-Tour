@@ -14,17 +14,17 @@
     .owl-next {
       cursor: pointer;
     }
+
   }
 
+  .flexslider {
+    margin: 0;
+  }
 
-    .flexslider {
-      margin: 0;
-    }
-
-    .coursetour-media .tab-content, .coursetour-aside .tab-content {
-      border-width: 0 1px 1px 1px;
-      border-style: solid;
-    }
+  .coursetour-media .tab-content, .coursetour-aside .tab-content {
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+  }
 
   .coursetour-loader {
     display: none;
@@ -60,7 +60,7 @@
 
   }
 
-  .hole-wrapper::after{
+  .hole-wrapper::after {
     visibility: hidden;
     display: block;
     font-size: 0;

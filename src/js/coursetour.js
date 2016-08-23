@@ -421,7 +421,7 @@
 				function getDesc(index) {
 
 					return $.ajax({
-						url: tour.options.descriptionPath + '/coursetour-desc-' + index + '.htm',
+						url: tour.options.descriptionPath + '/fck_desc_' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.description.push(html);
@@ -437,7 +437,7 @@
 				function getStats(index) {
 
 					return $.ajax({
-						url: tour.options.descriptionPath + '/coursetour-stats-' + index + '.htm',
+						url: tour.options.descriptionPath + '/fck_stats_' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.stats.push(html);
@@ -521,6 +521,8 @@
 					slideshow: false,
 					itemWidth: 210,
 					itemMargin: 5,
+					prevText: '',
+					nextText: '',
 					asNavFor: '#' + sliderId
 				});
 
@@ -528,6 +530,8 @@
 					animation: "slide",
 					controlNav: false,
 					animationLoop: false,
+					prevText: '',
+					nextText: '',
 					sync: '#' + carouselId
 				});
 
@@ -545,6 +549,8 @@
 					slideshow: false,
 					itemWidth: 210,
 					itemMargin: 5,
+					prevText: '',
+					nextText: '',
 					asNavFor: '#' + sliderId
 				});
 
@@ -554,6 +560,8 @@
 					controlNav: false,
 					animationLoop: false,
 					slideshow: false,
+					prevText: '',
+					nextText: '',
 					sync: '#' + carouselId
 				});
 
