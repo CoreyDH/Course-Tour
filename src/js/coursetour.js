@@ -141,9 +141,20 @@
 				}
 
 				if (this.options.info) {
-					infoPromise = this.getContent().done(function() {
-						createHTML.createAside();
-					});
+
+					if (this.options.ajaxInfo) {
+
+						infoPromise = this.getContentAjax().done(function() {
+							createHTML.createAside();
+						});
+
+					} else {
+
+						this.getContent();
+						this.createAside();
+
+					}
+
 				}
 
 				$.when(mediaPromise, infoPromise).done(function() {
@@ -371,7 +382,7 @@
 			},
 			createAside: function() {
 
-				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-md-4"><div class="row"></div></div>');
+				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-md-4 pull-right"><div class="row"></div></div>');
 				var $aside = this.wrapper.find('.hole-wrapper > .coursetour-aside > .row');
 				var statsOnly;
 
@@ -408,6 +419,19 @@
 
 			},
 			getContent: function() {
+
+				this.stats = [];
+				this.description = [];
+
+				for (var i = 1; i <= this.options.holes; i++) {
+
+					this.description.push($('.hole-desc-' + i).html());
+					this.stats.push($('.hole-stats-' + i).html());
+
+				}
+
+			},
+			getContentAjax: function() {
 
 				var deferred = [];
 
@@ -604,7 +628,8 @@
 		descriptionPath: '.', // description directory
 		stats: true, // displays stats
 		imagesPath: 'images/coursetour', // path to the image folder, will read folders inside and relate to hole # in ascending order
-		loader: true // display load screen
+		loader: true, // display load screen
+		ajaxInfo: false // retrieve fck info with ajax
 	};
 
 	// Setting Global for Multiple coursetour on load
