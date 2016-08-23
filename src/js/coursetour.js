@@ -595,15 +595,19 @@
 
 	$.fn.coursetour = function(options) {
 
-		if (options.videos) {
+		options = options || {};
+
+		if (options.videos !== undefined) {
 
 			multiVideoTour.push({
 				el: this,
 				options: options
 			});
 
+			// Get first script tag
 			var firstScriptTag = document.getElementsByTagName('script')[0];
 
+			// If the YT api isn't loaded, load it
 			if (firstScriptTag.src !== 'https://www.youtube.com/iframe_api') {
 
 				var tag = document.createElement('script');
@@ -617,7 +621,7 @@
 
 				for (var i = 0; i < multiVideoTour.length; i++) {
 
-					// Load Course Tour
+					// Load new course tour
 					new $.coursetour(multiVideoTour[i].el, multiVideoTour[i].options);
 
 				}
@@ -626,6 +630,7 @@
 
 		} else {
 
+			// Load new course tour
 			new $.coursetour(this, options);
 
 		}

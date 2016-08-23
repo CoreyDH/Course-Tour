@@ -72,14 +72,20 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						flatten: true,
+						src: ['src/get_files.php'],
+						dest: 'dist',
+						filter: 'isFile'
+					}, {
+						expand: true,
+						flatten: true,
 						src: ['src/css/coursetour-theme.css'],
 						dest: 'dist/css',
 						filter: 'isFile'
 					}, {
 						expand: true,
 						flatten: true,
-						src: ['src/img/*'],
-						dest: 'dist/img',
+						src: ['src/images/*'],
+						dest: 'dist/images',
 						filter: 'isFile'
 					}, {
 						expand: true,
