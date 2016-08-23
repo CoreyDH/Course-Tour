@@ -322,7 +322,7 @@
 					},
 					url: 'get_files.php',
 					success: function(files) {
-						console.log(files);
+
 						if (files) {
 							self.images = sortImages(files);
 							self.options.images = checkImages(self.images);
@@ -382,7 +382,7 @@
 			},
 			createAside: function() {
 
-				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-md-4 pull-right"><div class="row"></div></div>');
+				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-md-4"><div class="row"></div></div>');
 				var $aside = this.wrapper.find('.hole-wrapper > .coursetour-aside > .row');
 				var statsOnly;
 
