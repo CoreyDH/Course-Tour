@@ -220,7 +220,13 @@
 			createMedia: function() {
 
 				if (this.options.images || this.options.videos) {
-					this.wrapper.find('.hole-wrapper').append('<div class="coursetour-media col-md-8"></div>');
+
+					if(this.wrapper.find('.hole-wrapper > .coursetour-aside').length === 0) {
+						this.wrapper.find('.hole-wrapper').append('<div class="coursetour-media col-xs-12 col-md-8 pull-'+this.options.mediaPos+'"></div>');
+					} else {
+						this.wrapper.find('.hole-wrapper > .coursetour-aside').before('<div class="coursetour-media col-xs-12 col-md-8 pull-'+this.options.mediaPos+'"></div>');
+					}
+
 					var $media = this.wrapper.find('.hole-wrapper > .coursetour-media');
 					var vidOnly;
 
@@ -382,8 +388,8 @@
 			},
 			createAside: function() {
 
-				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-md-4"><div class="row"></div></div>');
-				var $aside = this.wrapper.find('.hole-wrapper > .coursetour-aside > .row');
+				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-xs-12 col-md-4 pull-'+this.options.infoPos+'"></div>');
+				var $aside = this.wrapper.find('.hole-wrapper > .coursetour-aside');
 				var statsOnly;
 
 				for (var i = 0; i < $aside.length; i++) {
@@ -422,11 +428,12 @@
 
 				this.stats = [];
 				this.description = [];
+				var $fck = $('.coursetour-fck');
 
 				for (var i = 1; i <= this.options.holes; i++) {
 
-					this.description.push($('.hole-desc-' + i).html());
-					this.stats.push($('.hole-stats-' + i).html());
+					this.description.push($fck.find('.hole-desc-' + i).html());
+					this.stats.push($fck.find('.hole-stats-' + i).html());
 
 				}
 
@@ -621,7 +628,9 @@
 	$.coursetour.defaults = {
 		holes: 18, // # of holes
 		info: true, // aside panel, holds description & stats
+		infoPos: 'right', // info panel position
 		media: true, // media panel, holds images & video slideshows
+		mediaPos: 'left', // media panel position
 		videos: false, // videos, can be set to object with an array of youtube videos. ex. { hole1: ['youtube link here'] }
 		images: true, // displays images
 		description: true, // displays descriptions
