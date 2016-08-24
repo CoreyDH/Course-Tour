@@ -49,7 +49,7 @@ module.exports = function(grunt) {
 			},
 			css: {
 				files: ['**/scss/*.scss'],
-				tasks: ['compass:dev'],
+				tasks: ['compass:dev', 'cssmin:dist'],
 				options: {
 					spawn: false
 				}
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-					'dist/css/coursetour.min.css': ['src/css/coursetour.css', 'bower_components/bootstrap/fonts-only/css/bootstrap.css', 'bower_components/flexslider/flexslider.css', 'bower_components/owl.carousel/dist/assets/owl.carousel.css'],
+					'dist/css/coursetour.min.css': ['src/css/coursetour.css', 'bower_components/owl.carousel/dist/assets/owl.carousel.css'],
 				}
 			}
 		}

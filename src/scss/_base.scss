@@ -4,6 +4,12 @@
 .coursetour-wrapper {
   position: relative;
 
+  *, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
   .coursetour-carousel h1 {
     padding: 10px;
     @include border-radius(5px);
@@ -48,6 +54,7 @@
 
   .coursetour-loader {
     display: none;
+    @include border-radius(5px);
     position: absolute;
     width: 100%;
     height: 100%;
@@ -95,6 +102,7 @@
     text-align: center;
 
     .owl-dot {
+      font-family: Arial, sans-serif;
       font-size: 16px;
       display: inline-block;
       font-weight: 600;

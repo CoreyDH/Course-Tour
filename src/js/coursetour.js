@@ -192,7 +192,7 @@
 			},
 			createWrapper: function() {
 
-				this.$el.append('<div class="row coursetour-wrapper"></div>');
+				this.$el.append('<div class="coursetour-wrapper"></div>');
 				this.wrapper = this.$el.find('.coursetour-wrapper');
 
 			},
@@ -534,7 +534,7 @@
 				$(el).on('click', function(event) {
 					event.preventDefault();
 					$(el).tab('show');
-					$('.flexslider').resize();
+					$('.coursetour-wrapper .flexslider').resize();
 				});
 
 			});
