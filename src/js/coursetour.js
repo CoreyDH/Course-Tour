@@ -534,7 +534,7 @@
 				$(el).on('click', function(event) {
 					event.preventDefault();
 					$(el).tab('show');
-					$('.coursetour-wrapper .flexslider').resize();
+					tour.$el.find('.coursetour-wrapper .flexslider').resize();
 				});
 
 			});

@@ -2225,6 +2225,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.coursetour-wrapper .nav {
+  margin-bottom: 0;
+}
+.coursetour-wrapper .tab-content {
+  overflow: hidden;
+}
 .coursetour-wrapper .coursetour-carousel h1 {
   padding: 10px;
   -moz-border-radius: 5px;
@@ -2236,9 +2242,6 @@
 }
 .coursetour-wrapper .coursetour-carousel h1 .owl-next {
   cursor: pointer;
-}
-.coursetour-wrapper .flexslider {
-  margin: 0;
 }
 .coursetour-wrapper .coursetour-media .tab-content, .coursetour-wrapper .coursetour-aside .tab-content {
   border-width: 0 1px 1px 1px;
@@ -2323,8 +2326,13 @@
   border-radius: 50%;
   cursor: pointer;
 }
+.coursetour-wrapper .flexslider {
+  margin: 0;
+}
 .coursetour-wrapper .flex-direction-nav a {
   padding-top: 10px;
+  text-indent: 0;
+  background: none;
 }
 .coursetour-wrapper .flex-direction-nav a, .coursetour-wrapper .flex-direction-nav a:before {
   color: rgba(255, 255, 255, 0.8);

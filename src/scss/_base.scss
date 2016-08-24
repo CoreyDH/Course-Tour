@@ -10,6 +10,14 @@
     box-sizing: border-box;
   }
 
+  .nav {
+    margin-bottom: 0;
+  }
+
+  .tab-content {
+    overflow: hidden;
+  }
+
   .coursetour-carousel h1 {
     padding: 10px;
     @include border-radius(5px);
@@ -21,10 +29,6 @@
       cursor: pointer;
     }
 
-  }
-
-  .flexslider {
-    margin: 0;
   }
 
   .coursetour-media .tab-content, .coursetour-aside .tab-content {
@@ -119,8 +123,14 @@
   }
 
   /* Flexslider */
+  .flexslider {
+    margin: 0;
+  }
+
   .flex-direction-nav a {
     padding-top: 10px;
+    text-indent: 0;
+    background: none;
   }
 
   .flex-direction-nav a, .flex-direction-nav a:before {
