@@ -50,6 +50,11 @@
   .coursetour-aside {
     padding-right: -15px;
 
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
     @media screen and (max-width: 992px) {
       padding-left: 10px;
       padding-right: 10px;

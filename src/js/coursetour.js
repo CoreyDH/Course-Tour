@@ -57,6 +57,7 @@
 		};
 		/* End YouTube API */
 
+		/* Loader object */
 		var loader = {
 
 			init: function(id) {
@@ -79,11 +80,8 @@
 				var parentWidth = this.$el.width();
 				var width = $spinner.width();
 
-				// var parentHeight = this.$el.height();
-				// var height = $spinner.height();
-
 				$spinner.css({
-					top: '45%',
+					top: '45%', // Unable to retrieve height values, using 45% static for now
 					left: parentWidth / 2 - width / 2
 				});
 
@@ -179,12 +177,12 @@
 					if (!this.options.media || ((!this.options.images || !this.options.images[i]) && this.options.videos['hole' + (i + 1)] === undefined)) {
 
 						$media.eq(i).hide();
-						$aside.eq(i).removeClass('col-md-4').addClass('col-md-12');
+						$aside.eq(i).removeClass('col-md-'+this.options.infoColWidth).addClass('col-md-12');
 
 					} else if (!this.options.info || (!this.description[i] && !this.stats[i])) {
 
 						$aside.eq(i).hide();
-						$media.eq(i).removeClass('col-md-8').addClass('col-md-12');
+						$media.eq(i).removeClass('col-md-'+this.options.mediaColWidth).addClass('col-md-12');
 
 					}
 				}
@@ -222,9 +220,9 @@
 				if (this.options.images || this.options.videos) {
 
 					if(this.wrapper.find('.hole-wrapper > .coursetour-aside').length === 0) {
-						this.wrapper.find('.hole-wrapper').append('<div class="coursetour-media col-xs-12 col-md-8 pull-'+this.options.mediaPos+'"></div>');
+						this.wrapper.find('.hole-wrapper').append('<div class="coursetour-media col-xs-12 col-md-'+this.options.mediaColWidth+' pull-'+this.options.mediaPos+'"></div>');
 					} else {
-						this.wrapper.find('.hole-wrapper > .coursetour-aside').before('<div class="coursetour-media col-xs-12 col-md-8 pull-'+this.options.mediaPos+'"></div>');
+						this.wrapper.find('.hole-wrapper > .coursetour-aside').before('<div class="coursetour-media col-xs-12 col-md-'+this.options.mediaColWidth+' pull-'+this.options.mediaPos+'"></div>');
 					}
 
 					var $media = this.wrapper.find('.hole-wrapper > .coursetour-media');
@@ -388,7 +386,7 @@
 			},
 			createAside: function() {
 
-				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-xs-12 col-md-4 pull-'+this.options.infoPos+'"></div>');
+				this.wrapper.find('.hole-wrapper').append('<div class="coursetour-aside col-xs-12 col-md-'+this.options.infoColWidth+' pull-'+this.options.infoPos+'"></div>');
 				var $aside = this.wrapper.find('.hole-wrapper > .coursetour-aside');
 				var statsOnly;
 
@@ -424,6 +422,7 @@
 				}
 
 			},
+			// Pull info data via DOM
 			getContent: function() {
 
 				this.stats = [];
@@ -438,6 +437,7 @@
 				}
 
 			},
+			// Pull info data via XML request
 			getContentAjax: function() {
 
 				var deferred = [];
@@ -489,7 +489,8 @@
 		// Carousel
 		function initCarousel() {
 
-			// Setup Carousel
+			// Owl Carousel
+			// More info at (http://www.owlcarousel.owlgraphic.com/)
 			var owl = tour.$el.find(".coursetour-carousel");
 			var holeWrap = tour.$el.find('.hole-wrapper h1');
 			var navWrap = tour.$el.find('.coursetour-nav');
@@ -497,7 +498,7 @@
 			owl.owlCarousel({
 				items: 1,
 				margin: 30,
-				smartSpeed: 450,
+				smartSpeed: tour.options.carouselSpeed,
 				nav: true,
 				navElement: 'span',
 				navText: ['', ''],
@@ -528,7 +529,7 @@
 		/* Sliders & jQuery Listeners */
 		function initSliders() {
 
-			// Fix sizing on tab open
+			// Resize flexslider on tab change
 			tour.$el.find('.coursetour-media .nav-tabs a').each(function(i, el) {
 
 				$(el).on('click', function(event) {
@@ -540,6 +541,7 @@
 			});
 
 			// Flexslider
+			// load image flexslider, more info at (http://flexslider.woothemes.com/)
 			tour.$el.find('.coursetour-images').each(function(i, el) {
 
 				var sliderId = $(el).find('.coursetour-images-slider').attr('id');
@@ -573,6 +575,7 @@
 				var sliderId = $(el).find('.coursetour-videos-slider').attr('id');
 				var carouselId = $(el).find('.coursetour-videos-carousel').attr('id');
 
+				// load video flexslider, more info at (http://flexslider.woothemes.com/)
 				$('#' + carouselId).flexslider({
 					animation: "slide",
 					controlNav: false,
@@ -598,6 +601,7 @@
 
 			});
 
+			// Pause youtube video on slider/carousel change
 			$(tour.$el).find('.coursetour-videos-carousel').on('click', function() {
 				yt.pauseAll(createHTML.player);
 			});
@@ -610,9 +614,7 @@
 				yt.pauseAll(createHTML.player);
 			});
 
-			// Bootstrap
 			$(tour.$el).find('.nav-tabs a').on('click', function() {
-				// Pause any playing if there are any
 				yt.pauseAll(createHTML.player);
 			});
 
@@ -629,8 +631,10 @@
 		holes: 18, // # of holes
 		info: true, // aside panel, holds description & stats
 		infoPos: 'right', // info panel position
+		infoColWidth: 4, // info panel column width based on bootstrap grid
 		media: true, // media panel, holds images & video slideshows
 		mediaPos: 'left', // media panel position
+		mediaColWidth: 8, // media panel column width based on bootstrap grid
 		videos: false, // videos, can be set to object with an array of youtube videos. ex. { hole1: ['youtube link here'] }
 		images: true, // displays images
 		description: true, // displays descriptions
@@ -638,16 +642,19 @@
 		stats: true, // displays stats
 		imagesPath: 'images/coursetour', // path to the image folder, will read folders inside and relate to hole # in ascending order
 		loader: true, // display load screen
-		ajaxInfo: false // retrieve fck info with ajax
+		ajaxInfo: false, // retrieve fck info with ajax
+		carouselSpeed: 350 // transition speed of the carousel
 	};
 
 	// Setting Global for Multiple coursetour on load
 	var multiVideoTour = [];
 
+	// Attach as jquery plugin
 	$.fn.coursetour = function(options) {
 
 		options = options || {};
 
+		// if there are videos, load youtube api
 		if (options.videos !== undefined) {
 
 			multiVideoTour.push({
