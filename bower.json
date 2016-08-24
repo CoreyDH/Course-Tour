@@ -18,7 +18,6 @@
     "jquery": "^3.1.0",
     "bootstrap": "^3.3.7",
     "flexslider": "^2.6.1",
-    "owl.carousel": "^2.1.6",
-    "jquery.fitvids": "fitvids#^1.1.0"
+    "owl.carousel": "^2.1.6"
   }
 }
