@@ -2337,10 +2337,12 @@
   padding-top: 10px;
   text-indent: 0;
   background: none;
+  line-height: 20px;
 }
 .coursetour-wrapper .flex-direction-nav a, .coursetour-wrapper .flex-direction-nav a:before {
   color: rgba(255, 255, 255, 0.8);
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+  font-size: 26px;
 }
 
 .coursetour-fck {
