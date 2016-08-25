@@ -61,6 +61,7 @@ pathFolder
 |-hole3
 |-etc..
 ```
+<b>smoothHeight</b> (default: false) <i>boolean</i> - Flexslider smoothHeight feature.
 
 <b>description</b> (default: true) <i>boolean</i> - Display descriptions.
 

@@ -563,6 +563,7 @@
 					animation: "slide",
 					controlNav: false,
 					animationLoop: false,
+					smoothHeight: tour.options.smoothHeight,
 					prevText: '',
 					nextText: '',
 					sync: '#' + carouselId
@@ -614,7 +615,7 @@
 				yt.pauseAll(createHTML.player);
 			});
 
-			$(tour.$el).find('.nav-tabs a').on('click', function() {
+			$(tour.$el).find('.coursetour-media .nav-tabs a').on('click', function() {
 				yt.pauseAll(createHTML.player);
 			});
 
@@ -638,6 +639,7 @@
 		videos: false, // videos, can be set to object with an array of youtube videos. ex. { hole1: ['youtube link here'] }
 		images: true, // displays images
 		imagesPath: 'images/coursetour', // path to the image folder, will read folders inside and relate to hole # in ascending order
+		smoothHeight: false, // flexslider smoothHeight
 		description: true, // displays descriptions
 		stats: true, // displays stats
 		loader: true, // display load screen
