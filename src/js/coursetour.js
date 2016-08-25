@@ -452,7 +452,7 @@
 				function getDesc(index) {
 
 					return $.ajax({
-						url: tour.options.descriptionPath + '/fck_desc_' + index + '.htm',
+						url: tour.options.infoPath + '/fck_desc_' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.description.push(html);
@@ -468,13 +468,13 @@
 				function getStats(index) {
 
 					return $.ajax({
-						url: tour.options.descriptionPath + '/fck_stats_' + index + '.htm',
+						url: tour.options.infoPath + '/fck_stats_' + index + '.htm',
 						dataType: 'html',
 						success: function(html) {
 							createHTML.stats.push(html);
 						},
 						error: function() {
-							console.log('Failed to get stats pages', tour.options.descriptionPath);
+							console.log('Failed to get stats pages', tour.options.infoPath);
 							createHTML.options.stats = false;
 						}
 					});
@@ -637,13 +637,13 @@
 		mediaColWidth: 8, // media panel column width based on bootstrap grid
 		videos: false, // videos, can be set to object with an array of youtube videos. ex. { hole1: ['youtube link here'] }
 		images: true, // displays images
-		description: true, // displays descriptions
-		descriptionPath: '.', // description directory
-		stats: true, // displays stats
 		imagesPath: 'images/coursetour', // path to the image folder, will read folders inside and relate to hole # in ascending order
+		description: true, // displays descriptions
+		stats: true, // displays stats
 		loader: true, // display load screen
 		ajaxInfo: false, // retrieve fck info with ajax
-		carouselSpeed: 350 // transition speed of the carousel
+		infoPath: '.', // description/stats directory, needed if ajaxInfo is set to true
+		carouselSpeed: 350 // transition speed of the wrapper carousel
 	};
 
 	// Setting Global for Multiple coursetour on load

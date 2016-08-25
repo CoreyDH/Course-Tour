@@ -1,4 +1,5 @@
 <?php
+
 $path=$_SERVER[SCRIPT_FILENAME]; $parts=explode("/",$path); if ($_SERVER[HTTP_HOST] == "coursetrends.com") { $location=$parts[7]; } elseif ($_SERVER[HTTP_HOST] == "www.coursetrends.com") { $location=$parts[7]; } else { $location=$parts[7];}
 
 $imgPath = $_REQUEST['imagesPath'];
@@ -32,6 +33,5 @@ if(count($files) == 0) {
 } else {
 	echo implode(',', $files);
 }
-
 
 ?>
