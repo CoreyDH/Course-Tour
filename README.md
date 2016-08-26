@@ -14,6 +14,7 @@
 ### Dependencies ###
 - jQuery
 - Bootstrap
+- Owl Carousel 2
 - Flexslider 2
 
 ### Implementation ###
